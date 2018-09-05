@@ -36,6 +36,7 @@ export default class Ryokun extends React.Component {
         <p>
           <TweetButton text={text} />
         </p>
+        <p><a href="https://github.com/furugomu/ryokun">GitHub</a></p>
       </>
     );
   }
