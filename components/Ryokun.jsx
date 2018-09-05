@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Text as InformedText } from "informed";
+import Copy from './Copy'
 
 export default class Ryokun extends React.Component {
   constructor() {
@@ -26,13 +27,14 @@ export default class Ryokun extends React.Component {
   }
 
   render() {
+    const text = this.text()
     return (
       <>
         <Description />
         <MyForm values={this.state} onChange={this.handleChange.bind(this)} />
-        <p>{this.text()}</p>
+        <p><Copy text={text} /></p>
         <p>
-          <TweetButton text={this.text()} />
+          <TweetButton text={text} />
         </p>
       </>
     );
@@ -89,3 +91,4 @@ const TweetButton = ({ text }) => (
     </a>
   </>
 );
+
