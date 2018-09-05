@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Text as InformedText } from "informed";
-import Copy from './Copy'
+import Copy from "./Copy";
+import TweetButton from "./TweetButton";
 
 export default class Ryokun extends React.Component {
   constructor() {
@@ -27,16 +28,20 @@ export default class Ryokun extends React.Component {
   }
 
   render() {
-    const text = this.text()
+    const text = this.text();
     return (
       <>
         <Description />
         <MyForm values={this.state} onChange={this.handleChange.bind(this)} />
-        <p><Copy text={text} /></p>
+        <p>
+          <Copy text={text} />
+        </p>
         <p>
           <TweetButton text={text} />
         </p>
-        <p><a href="https://github.com/furugomu/ryokun">GitHub</a></p>
+        <p>
+          <a href="https://github.com/furugomu/ryokun">GitHub</a>
+        </p>
       </>
     );
   }
@@ -81,15 +86,3 @@ const MyForm = ({ values, onChange }) => (
 );
 
 const Text = props => <InformedText style={{ fontSize: "16px" }} {...props} />;
-
-const TweetButton = ({ text }) => (
-  <>
-    <a
-      className="twitter-share-button"
-      href={"https://twitter.com/intent/tweet?text=" + encodeURIComponent(text)}
-    >
-      Tweet
-    </a>
-  </>
-);
-
