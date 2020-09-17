@@ -1,6 +1,10 @@
 import React from "react";
 
-export default class TweetButton extends React.Component {
+type Props = { text: string };
+
+export default class TweetButton extends React.Component<Props> {
+  ref: React.RefObject<HTMLSpanElement>;
+  widget?: HTMLElement;
   constructor(props) {
     super(props);
     this.ref = React.createRef();
@@ -13,9 +17,9 @@ export default class TweetButton extends React.Component {
   update() {
     twttr.widgets
       .createShareButton(location.href, this.ref.current, {
-        text: this.props.text
+        text: this.props.text,
       })
-      .then(widget => {
+      .then((widget: any) => {
         if (this.widget) this.widget.remove();
         this.widget = widget;
       });

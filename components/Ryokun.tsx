@@ -3,15 +3,25 @@ import { Form, Text as InformedText } from "informed";
 import Copy from "./Copy";
 import TweetButton from "./TweetButton";
 
-export default class Ryokun extends React.Component {
-  constructor() {
-    super();
+type Props = {};
+
+type State = {
+  food: string;
+  place: string;
+  shop: string;
+  name: string;
+  adjective: string;
+};
+
+export default class Ryokun extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = {
       food: "水",
       place: "我が家",
       shop: "洗面所",
       name: "水道水",
-      adjective: "無味無臭"
+      adjective: "無味無臭",
     };
   }
 
@@ -85,4 +95,6 @@ const MyForm = ({ values, onChange }) => (
   </Form>
 );
 
-const Text = props => <InformedText style={{ fontSize: "16px" }} {...props} />;
+const Text = (props) => (
+  <InformedText style={{ fontSize: "16px" }} {...props} />
+);

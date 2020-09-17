@@ -1,7 +1,9 @@
 import React from "react";
 
-export default class Copy extends React.Component {
-  constructor(props) {
+type Props = { text: string };
+export default class Copy extends React.Component<Props> {
+  ref: React.RefObject<HTMLSpanElement>;
+  constructor(props: Props) {
     super(props);
     this.ref = React.createRef();
   }
@@ -16,11 +18,15 @@ export default class Copy extends React.Component {
   }
 
   render() {
-    const {text} = this.props;
-    return <>
-      <span ref={this.ref}>{text}</span>
-      <button type="button" onClick={this.copy.bind(this)}>コピー</button>
-    </>;
+    const { text } = this.props;
+    return (
+      <>
+        <span ref={this.ref}>{text}</span>
+        <button type="button" onClick={this.copy.bind(this)}>
+          コピー
+        </button>
+      </>
+    );
   }
 }
 // Copy.propTypes = {text:PropTypes.string}
