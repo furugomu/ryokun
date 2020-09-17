@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Ryokun from "../components/Ryokun";
 
-export default () => (
+const Page = () => (
   <>
     <Head>
       <title>りょうくんグルメ</title>
@@ -15,3 +15,5 @@ export default () => (
     <Ryokun />
   </>
 );
+
+export default Page;
