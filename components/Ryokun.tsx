@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
-import { Form, Text as InformedText, useFormState } from "informed";
+import { FieldProps, Form, Text as InformedText, useFormState } from "informed";
 import Copy from "./Copy";
 import TweetButton from "./TweetButton";
 import Share from "./Share";
@@ -41,37 +41,6 @@ const Description = () => (
   </p>
 );
 
-const MyForm = ({ values, onChange }) => (
-  <Form initialValues={values} onChange={onChange}>
-    <dl>
-      <dt>誰に教えてあげたい？</dt>
-      <dd>
-        この世の全ての
-        <Text field="food" />
-        好き
-      </dd>
-      <dt>店はどこにある？</dt>
-      <dd>
-        <Text field="place" />
-      </dd>
-      <dt>店の名前は？</dt>
-      <dd>
-        <Text field="shop" />
-      </dd>
-      <dt>どんな料理？</dt>
-      <dd>
-        全ての人間を虜にする禁断の
-        <Text field="name" />
-      </dd>
-      <dt>どんな？</dt>
-      <dd>
-        <Text field="adjective" />
-        で超絶美味い
-      </dd>
-    </dl>
-  </Form>
-);
-
 const Fields: FC = () => (
   <dl>
     <dt>誰に教えてあげたい？</dt>
@@ -101,7 +70,7 @@ const Fields: FC = () => (
   </dl>
 );
 
-const Text = (props) => (
+const Text: FC<FieldProps<Values, {}>> = (props) => (
   <InformedText style={{ fontSize: "16px" }} {...props} />
 );
 
@@ -118,9 +87,6 @@ const FormContent: FC = () => {
   );
   return (
     <>
-      <div>
-        <code>{JSON.stringify(formState.values)}</code>
-      </div>
       <p>
         <Copy text={text} />
       </p>
