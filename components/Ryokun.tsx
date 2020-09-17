@@ -1,61 +1,38 @@
-import React from "react";
-import { Form, Text as InformedText } from "informed";
+import React, { FC, useMemo, useState } from "react";
+import { Form, Text as InformedText, useFormState } from "informed";
 import Copy from "./Copy";
 import TweetButton from "./TweetButton";
+import Share from "./Share";
 
 type Props = {};
 
-type State = {
+type Values = {
   food: string;
   place: string;
   shop: string;
   name: string;
   adjective: string;
 };
+const initialValues = {
+  food: "水",
+  place: "我が家",
+  shop: "洗面所",
+  name: "水道水",
+  adjective: "無味無臭",
+};
 
-export default class Ryokun extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      food: "水",
-      place: "我が家",
-      shop: "洗面所",
-      name: "水道水",
-      adjective: "無味無臭",
-    };
-  }
-
-  handleChange(formState) {
-    this.setState(formState.values);
-  }
-
-  text() {
-    const { food, place, shop, name, adjective } = this.state;
-    return `
-    まじでこの世の全ての${food}好きに教えてあげたいんだが${place}の${shop}には全ての人間を虜にする禁断の${name}がある。
-    これが${adjective}で超絶美味いからぜひ全国の${food}好き、${food}を愛する者たち、${food}を憎む者たち、全ての${food}関係者に伝われ
-    `.replace(/^\s+/gm, "");
-  }
-
-  render() {
-    const text = this.text();
-    return (
-      <>
-        <Description />
-        <MyForm values={this.state} onChange={this.handleChange.bind(this)} />
-        <p>
-          <Copy text={text} />
-        </p>
-        <p>
-          <TweetButton text={text} />
-        </p>
-        <p>
-          <a href="https://github.com/furugomu/ryokun">GitHub</a>
-        </p>
-      </>
-    );
-  }
-}
+const Ryokun: FC<Props> = () => {
+  return (
+    <>
+      <Description />
+      <Form<Values> initialValues={initialValues}>
+        <Fields />
+        <FormContent />
+      </Form>
+    </>
+  );
+};
+export default Ryokun;
 
 const Description = () => (
   <p>
@@ -95,6 +72,64 @@ const MyForm = ({ values, onChange }) => (
   </Form>
 );
 
+const Fields: FC = () => (
+  <dl>
+    <dt>誰に教えてあげたい？</dt>
+    <dd>
+      この世の全ての
+      <Text field="food" />
+      好き
+    </dd>
+    <dt>店はどこにある？</dt>
+    <dd>
+      <Text field="place" />
+    </dd>
+    <dt>店の名前は？</dt>
+    <dd>
+      <Text field="shop" />
+    </dd>
+    <dt>どんな料理？</dt>
+    <dd>
+      全ての人間を虜にする禁断の
+      <Text field="name" />
+    </dd>
+    <dt>どんな？</dt>
+    <dd>
+      <Text field="adjective" />
+      で超絶美味い
+    </dd>
+  </dl>
+);
+
 const Text = (props) => (
   <InformedText style={{ fontSize: "16px" }} {...props} />
 );
+
+const FormContent: FC = () => {
+  const formState = useFormState<Values>();
+  const { food, place, shop, name, adjective } = formState.values;
+  const text = useMemo(
+    () =>
+      `
+  まじでこの世の全ての${food}好きに教えてあげたいんだが${place}の${shop}には全ての人間を虜にする禁断の${name}がある。
+  これが${adjective}で超絶美味いからぜひ全国の${food}好き、${food}を愛する者たち、${food}を憎む者たち、全ての${food}関係者に伝われ
+  `.replace(/^\s+/gm, ""),
+    [food, place, shop, name, adjective]
+  );
+  return (
+    <>
+      <div>
+        <code>{JSON.stringify(formState.values)}</code>
+      </div>
+      <p>
+        <Copy text={text} />
+      </p>
+      <p>
+        <Share text={text} />
+      </p>
+      <p>
+        <a href="https://github.com/furugomu/ryokun">GitHub</a>
+      </p>
+    </>
+  );
+};

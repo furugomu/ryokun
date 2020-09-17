@@ -1,8 +1,28 @@
-import React from "react";
+import React, { FC, useCallback, useEffect, useRef } from "react";
 
 type Props = { text: string };
 
-export default class TweetButton extends React.Component<Props> {
+const TweetButton: FC<Props> = ({ text }) => {
+  const ref = useRef<HTMLSpanElement>();
+  const widget = useRef<HTMLElement>();
+  const update = useCallback(() => {
+    twttr.widgets
+      .createShareButton(location.href, ref.current, {
+        text,
+      })
+      .then((newWidget: any) => {
+        if (widget.current) widget.current.remove();
+        widget.current = newWidget;
+      });
+  }, [text]);
+  useEffect(() => {
+    update();
+  }, [update]);
+
+  return <span ref={ref} />;
+};
+export default TweetButton;
+class TweetButtonx extends React.Component<Props> {
   ref: React.RefObject<HTMLSpanElement>;
   widget?: HTMLElement;
   constructor(props) {

@@ -1,32 +1,27 @@
-import React from "react";
+import React, { FC, useRef } from "react";
 
 type Props = { text: string };
-export default class Copy extends React.Component<Props> {
-  ref: React.RefObject<HTMLSpanElement>;
-  constructor(props: Props) {
-    super(props);
-    this.ref = React.createRef();
-  }
 
-  copy() {
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    const r = document.createRange();
-    r.selectNode(this.ref.current);
-    selection.addRange(r);
-    document.execCommand("copy");
-  }
+const Copy: FC<Props> = ({ text }) => {
+  const ref = useRef<HTMLSpanElement>();
+  return (
+    <>
+      <span ref={ref}>{text}</span>
+      <button type="button" onClick={() => copyElementContent(ref.current)}>
+        コピー
+      </button>
+    </>
+  );
+};
+export default Copy;
 
-  render() {
-    const { text } = this.props;
-    return (
-      <>
-        <span ref={this.ref}>{text}</span>
-        <button type="button" onClick={this.copy.bind(this)}>
-          コピー
-        </button>
-      </>
-    );
-  }
-}
-// Copy.propTypes = {text:PropTypes.string}
+const copyElementContent = (element?: HTMLElement) => {
+  if (!element) return;
+
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  const r = document.createRange();
+  r.selectNode(element);
+  selection.addRange(r);
+  document.execCommand("copy");
+};
